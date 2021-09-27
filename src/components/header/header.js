@@ -1,11 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './header.scss';
 
 function Header(props) {
     return (
         <header>
-            <h1>To Do List: {props.incomplete} items pending</h1>
+            <Link className="link" to="/">Home</Link>
+            <Link className="link" to="/settings">Settings</Link>
         </header>
     )
 }
