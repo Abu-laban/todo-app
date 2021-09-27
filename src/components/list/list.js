@@ -5,15 +5,24 @@ function List(props) {
     return (
         <Card elevation={Elevation.THREE}>
             {
-                props.pagination().map(item => (
-                    <div key={item.id}>
+                props.pagination().map((item, idx) => (
+                    <div key={idx}>
                         <p>{item.text}</p>
                         <p><small>Assigned to: {item.assignee}</small></p>
                         <p><small>Difficulty: {item.difficulty}</small></p>
+                        <div>Complete: {item.complete.toString()}</div>
                         {
                             (!item.complete)
-                                ? <Button onClick={() => props.toggleComplete(item.id)}>Complete: {item.complete.toString()}</Button>
-                                : <Button onClick={() => props.deleteItem(item.id)}>Delete </Button>
+                                ? (
+                                    <Button onClick={() => props.toggleComplete(item.id)}>Complete: {item.complete.toString()}</Button>
+                                )
+                                : (
+                                    <>
+                                        <Button onClick={() => props.toggleComplete(item.id)}>Complete: {item.complete.toString()}</Button>
+                                        <br></br>
+                                        <Button onClick={() => props.deleteItem(item.id)}>Delete </Button>
+                                    </>
+                                )
                         }
                         <hr />
                     </div>
@@ -24,5 +33,6 @@ function List(props) {
         </Card>
     );
 };
+
 
 export default List;
