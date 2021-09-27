@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react'
 import { Button, Card, Elevation } from '@blueprintjs/core';
+import { SettingsContext } from '../../context/settings'
 
 function List(props) {
+    const settings = useContext(SettingsContext)
+    const [activeList, setActiveList] = useState([]);
+
+    useEffect(() => {
+        if (settings.hide) {
+            setActiveList(props.pagination());
+        } else {
+            let temp = props.list.filter((item) => {
+                return item.complete === false
+            })
+            setActiveList(temp.slice(props.startPage, props.endPage));
+        }
+    }, [settings.hide]);
+
+    const toggleView = () => {
+        settings.setHide(!settings.hide);
+    }
+
     return (
         <Card elevation={Elevation.THREE}>
+
+            <button onClick={toggleView} >View Completed: {settings.hide.toString()}</button>
+
             {
-                props.pagination().map((item, idx) => (
+                activeList.map((item, idx) => (
                     <div key={idx}>
                         <p>{item.text}</p>
                         <p><small>Assigned to: {item.assignee}</small></p>

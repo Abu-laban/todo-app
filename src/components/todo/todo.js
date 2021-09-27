@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import useForm from '../../hooks/form.js';
 import { v4 as uuid } from 'uuid';
-
-import Header from '../header/header.js';
+import "./todo.scss";
 import Form from '../form/form.js';
 import List from '../list/list.js';
 import { SettingsContext } from '../../context/settings';
@@ -66,7 +65,9 @@ const ToDo = () => {
 
   return (
     <>
-      <Header incomplete={incomplete} />
+
+
+      <h1 className="title-bar">To Do List: {incomplete} items pending</h1>
 
 
       <Form
@@ -75,6 +76,9 @@ const ToDo = () => {
       />
 
       <List
+        list={list}
+        startPage={startPage}
+        endPage={endPage}
         pagination={pagination}
         next={next}
         previous={previous}
