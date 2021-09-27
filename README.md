@@ -19,6 +19,7 @@ In the project directory, you can run:
 
 ## UML
 
+![UML](UML.png)
 
 ## Links
 
