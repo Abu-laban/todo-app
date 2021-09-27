@@ -23,4 +23,4 @@ In the project directory, you can run:
 
 ## Links
 
-- [Netlify]()
+- [Netlify](https://friendly-todo-app.netlify.app/)
