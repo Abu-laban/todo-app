@@ -1,45 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { SettingsContext } from "../../context/settings"
+import React from "react";
+import { useContext } from "react";
+import { settingContext } from "../../context/settings";
 
-function Settings() {
-    const settings = useContext(SettingsContext)
-    const [show, setShow] = useState(true);
-    const [numOfitems, setNumOfitems] = useState(1);
-
-    function handleItemNumber(e) {
-        setNumOfitems(Number(e.target.value));
-    }
-    function handleView(e) {
-        if (e.target.checked) {
-            setShow(e.target.checked);
-        } else {
-            setShow(e.target.checked);
-        }
-    }
-    function handleSubmit(e) {
-        e.preventDefault();
-        settings.setItemNumber(Number(numOfitems));
-        settings.setHide(show);
-    }
-
-    useEffect(() => {
-        let payload = {
-            itemNumber: settings.itemNumber,
-            hide: settings.hide,
-        }
-        if (settings.itemNumber) {
-            localStorage.setItem('settings', JSON.stringify(payload));
-        }
-    }, [settings])
-
+function Settings(props) {
+    const { holdValues } = useContext(settingContext);
     return (
-        <div>
-            <form onSubmit={(e) => { handleSubmit(e) }}>
-                <label>The Number Of The Items Shown Per Pages</label>
-                <input name='items' type='number' placeholder={1} value={numOfitems} min={1} onChange={handleItemNumber}></input>
-                <label>View completed items</label>
-                <input name='view' type='checkbox' onChange={handleView}></input>
-                <button type='submit'>Submit</button>
+        <div className="setting-contianer">
+            <form onSubmit={holdValues}>
+                <h2 className="setting-heading">Settings</h2>
+                <label className="setting-title">Show only Incompleted todos </label> <br />
+                <div>
+                    <input type="radio" name="incomplete" value={false} /> No
+                    <input type="radio" name="incomplete" value={true} /> Yes
+                </div>
+                <br />
+                <br />
+                <label className="setting-title">Select number of todo's to for display</label> <br />
+                <select name="pageNumber" id="">
+                    <option disabled>Select One</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                </select>
+                <br />
+                <br />
+                <input type="submit" value="apply" />
             </form>
         </div>
     );

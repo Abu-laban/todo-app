@@ -1,26 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-export const SettingsContext = React.createContext();
+export const settingContext = React.createContext();
 
-export default function SettingsProvider(props) {
-    const [hide, setHide] = useState(false);
-    const [itemNumber, setItemNumber] = useState(3);
-    const [sort, setSort] = useState('difficulty');
+function settingsContext(props) {
+    const [elementsPerPage, setElementsPerPage] = useState(2);
+    const [showCompleted, setShowCompleted] = useState(false);
+    const [detectStorge, setDetectStorge] = useState(0);
 
+    function holdValues(e) {
+        e.preventDefault();
+        const obj = {
+            elementsPerPage: e.target.pageNumber.value,
+            showCompleted: e.target.incomplete.value,
+        };
+        localStorage.setItem("settings", JSON.stringify(obj));
+        setDetectStorge(detectStorge + 1);
+    }
 
     useEffect(() => {
-        const localSettings = JSON.parse(localStorage.getItem('settings'));
-        if (localSettings) {
-            setItemNumber(Number(localSettings.itemNumber));
-            setHide(hide);
+        let localData = localStorage.getItem("settings");
+        if (localData) {
+            let settings = JSON.parse(localData);
+            setElementsPerPage(Number(settings.elementsPerPage));
+            if (settings.showCompleted == "true") {
+                setShowCompleted(true);
+            }
+            if (settings.showCompleted == "false") {
+                setShowCompleted(false);
+            }
         }
-    }, [])
+    }, [detectStorge]);
 
-
+    const state = {
+        elementsPerPage,
+        showCompleted,
+        detectStorge,
+        setShowCompleted,
+        setElementsPerPage,
+        holdValues,
+    };
 
     return (
-        <SettingsContext.Provider value={{ hide, itemNumber, sort, setHide, setItemNumber, setSort }}>
+        <settingContext.Provider value={state}>
             {props.children}
-        </SettingsContext.Provider>
-    )
+        </settingContext.Provider>
+    );
 }
+
+export default settingsContext;
