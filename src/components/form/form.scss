@@ -1,24 +1,14 @@
-form {
-  max-width: 500px;
-  margin: 10px auto;
-  padding: 16px;
-  background: #f7f7f7;
-  box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.78);
+.form-container {
+  background-color: rgba(226, 226, 226, 0.486);
+  padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.315);
 }
 
-h2 {
-  background: #208f8f;
-  padding: 20px 0;
-  font-size: 140%;
-  text-align: center;
-  color: #fff;
-  margin: -16px -16px 16px -16px;
-  box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.78);
-  font-size: inherit;
-  color: #fff;
+input[type="range"]:hover {
+  cursor: pointer;
 }
-
-input {
-  width: 100%;
-  padding: 5px 0;
+input[type="range"]:focus {
+  cursor: grab;
 }

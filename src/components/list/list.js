@@ -1,60 +1,34 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Button, Card, Elevation } from '@blueprintjs/core';
-import { SettingsContext } from '../../context/settings'
-
 function List(props) {
-    const settings = useContext(SettingsContext)
-    const [activeList, setActiveList] = useState([]);
-
-    useEffect(() => {
-        if (settings.hide) {
-            setActiveList(props.pagination());
-        } else {
-            let temp = props.list.filter((item) => {
-                return item.complete === false
-            })
-            setActiveList(temp.slice(props.startPage, props.endPage));
-        }
-    }, [settings.hide]);
-
-    const toggleView = () => {
-        settings.setHide(!settings.hide);
-    }
-
+    console.log("list", props.list);
     return (
-        <Card elevation={Elevation.THREE}>
+        <div className="list-container">
+            {props.list.map((item) => (
+                <div key={item.id}>
+                    {console.log(item.id)}
+                    <h6>Todo Item: {item.text}</h6>
+                    <p>
+                        <small>Assigned to: {item.assignee}</small>
+                    </p>
+                    <p>
+                        <small>Difficulty: {item.difficulty ? item.difficulty : 3}</small>
+                    </p>
 
-            <button onClick={toggleView} >View Completed: {settings.hide.toString()}</button>
+                    <br />
+                    <Button className="delete-btn" variant="danger" onClick={() => props.deleteItem(item.id)}>
+                        Delete
+                    </Button>
 
-            {
-                activeList.map((item, idx) => (
-                    <div key={idx}>
-                        <p>{item.text}</p>
-                        <p><small>Assigned to: {item.assignee}</small></p>
-                        <p><small>Difficulty: {item.difficulty}</small></p>
-                        <div>Complete: {item.complete.toString()}</div>
-                        {
-                            (!item.complete)
-                                ? (
-                                    <Button onClick={() => props.toggleComplete(item.id)}>Complete: {item.complete.toString()}</Button>
-                                )
-                                : (
-                                    <>
-                                        <Button onClick={() => props.toggleComplete(item.id)}>Complete: {item.complete.toString()}</Button>
-                                        <br></br>
-                                        <Button onClick={() => props.deleteItem(item.id)}>Delete </Button>
-                                    </>
-                                )
-                        }
-                        <hr />
-                    </div>
-                ))
-            }
-            <Button onClick={props.previous}>Previous</Button>
-            <Button onClick={props.next}>Next</Button>
-        </Card>
+                    <Button
+                        onClick={() => props.toggleComplete(item.id)}
+                        variant="warning"
+                    >
+                        Complete: {item.complete ? "done" : "pending"}
+                    </Button>
+                    <hr />
+                </div>
+            ))}
+        </div>
     );
-};
-
+}
 
 export default List;
